@@ -1,0 +1,12 @@
+
+spring:
+    datasource:
+        url: jdbc:postgresql://10.0.3.103:5432/los_user_2?useTimezone=true&serverTimezone=UTC
+        username: bfsdbadmin
+        password: bfsdb@634
+        driverClassName: org.postgresql.Driver
+    jpa:
+      properties:
+        hibernate:
+            dialect:org.hibernate.dialect.PostgreSQL95Dialect
+
