@@ -1,15 +1,16 @@
 package com.student.register.common.annotations;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.annotation.Target;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
-
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { Dob.Validator.class })
 public @interface Dob {
@@ -26,24 +27,27 @@ public @interface Dob {
 
 	class Validator implements ConstraintValidator<Dob, String> {
 		
-		private String message;
-		private List<String> allowable;
+		// private String message;
+		// private List<String> allowable;
 
 		@Override
 		public void initialize(Dob requiredIfChecked) {
-			this.propName = requiredIfChecked.propName();
-			this.message = requiredIfChecked.message();
-			this.allowable = Arrays.asList(requiredIfChecked.values());
+			// this.propName = requiredIfChecked.propName();
+			// this.message = requiredIfChecked.message();
+			// this.allowable = Arrays.asList(requiredIfChecked.values());
 		}
-
+		
 		public boolean isValid(String value, ConstraintValidatorContext context) {
-			Boolean valid = this.allowable.contains(value);
 
-			if (!Boolean.TRUE.equals(valid)) {
-				context.disableDefaultConstraintViolation();
-				context.buildConstraintViolationWithTemplate(message.concat(this.allowable.toString()))
-						.addPropertyNode(this.propName).addConstraintViolation();
+			boolean valid;
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			try {
+				LocalDate dt = LocalDate.parse(value,dtf);
+				valid=Boolean.TRUE;
+			} catch (Exception e) {
+				valid= Boolean.FALSE;
 			}
+
 			return valid;
 		}
 	}

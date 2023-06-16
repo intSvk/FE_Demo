@@ -30,6 +30,7 @@ public class User {
     private String email;
 
     private LocalDate dob;
+    private int gender;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
